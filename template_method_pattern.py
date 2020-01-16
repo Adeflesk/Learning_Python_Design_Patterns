@@ -3,7 +3,7 @@
 # in the base class but lets derived classes overide specific
 # steps of the algorithm without changing its structure
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 #The AverageCalculator class is an abstract base class
 class AverageCalculator(ABC):
 
@@ -15,10 +15,10 @@ class AverageCalculator(ABC):
                 total_sum += self.next_item()
                 num_items += 1
             if num_items == 0:
-                raise RuntimeError('Can't compute average of zero items."")
+                raise RuntimeError("Can't compute average of zero items.")
             return total_sum / num_items
-            finally:
-                self.dispose()
+        finally:
+            self.dispose()
 
 
     @abstractmethod
@@ -43,11 +43,12 @@ class FileAverageCalculator(AverageCalculator):
         return self.last_line != ''
 
     def next_item(self):
-        result float(self.last_line)
+        result = float(self.last_line)
         self.last_line = self.file.readline()
         return result
     
-    def dispose(self)
+    def dispose(self):
         self.file.close()
 
-        
+fac = FileAverageCalculator(open('data.txt'))
+print(fac.average())#call the template method
