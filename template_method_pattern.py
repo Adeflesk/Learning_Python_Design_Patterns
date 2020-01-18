@@ -52,3 +52,25 @@ class FileAverageCalculator(AverageCalculator):
 
 fac = FileAverageCalculator(open('data.txt'))
 print(fac.average())#call the template method
+
+class MemoryAverageCalculator(AverageCalculator):
+
+    def __init__(self, lst):
+        self.lst = lst
+        self.index = 0
+       
+
+    def has_next(self):
+        return self.index < len(self.lst)
+      #  return True if len(self.list) else False   
+
+    def next_item(self):
+        #my original way was destructive to the list
+        result = self.lst[self.index]
+        self.index +=1
+       # result = self.list.pop()
+        return result
+
+
+mac = MemoryAverageCalculator([3,1,4,1,5,9,2,6,5,3])
+print(mac.average())
