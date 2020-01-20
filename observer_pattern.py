@@ -71,4 +71,54 @@ e.delete_observer(t)
 
 print('\nUpdate 2')
 e.salary = 6500
-     
+    
+
+class Twitter(Observable, Observer):
+
+    def __init__(self, name):
+        super().__init__()
+        self._name = name
+        self._tweet = ""
+
+    @property
+    def name(self):
+        return self._name
+
+   
+  
+    def follow(self, followed):
+        followed.add_observer(self)
+        return self
+         
+
+    def tweet(self, tweet_message):
+        self._tweet = tweet_message
+        self.notify_observers(tweet_message)
+
+    
+    def update(self, followed, tweet_message):
+        print(f'{self.name} recieved a tweet from '
+              f'{followed.name} '
+              f':{tweet_message}')
+
+a = Twitter('Alice')
+k = Twitter('King')
+q = Twitter('Queen')
+h = Twitter('Mad Hatter')
+c = Twitter('Cheshire Cat')
+a.follow(c).follow(h).follow(q) 
+k.follow(q)
+q.follow(q).follow(h)
+h.follow(a).follow(q).follow(c)
+
+
+print(f'==== {q.name} tweets ====')
+q.tweet('Off with their heads!')
+print(f'\n==== {a.name} tweets ====')
+a.tweet('What a strange world we live in.')
+print(f'\n==== {k.name} tweets ====')
+k.tweet('Begin at the beginning, and go on till you come to the end: then stop.')
+print(f'\n==== {c.name} tweets ====')
+c.tweet("We're all mad here.")
+print(f'\n==== {h.name} tweets ====')
+h.tweet('Why is a raven like a writing-desk?')
